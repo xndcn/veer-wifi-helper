@@ -1,0 +1,21 @@
+Here is some tips of veer wifi driver.
+
+1. Veer WiFi chip is BCM4319.
+
+2. Veer WiFi driver source code can be found on http://downloads.help.palm.com/opensource/2.1.2/dhd.tgz
+There is also a patch, but the dhd.tgz has been patched, so you don't have to.
+Use 'cd 2.1.2/dhd/linux; make LINUXDIR=XXX dhd-cdc-sdmmc-oob-gpl' to make it.
+Then the driver will be located in 2.1.2/dhd/linux/dhd-cdc-sdmmc-oob-gpl-2.6.29/dhd.ko
+
+3. The firmware and vars file are located in /lib/firmware/bcm4319.bin and /lib/firmware/bcm4319.txt in Veer.
+You should modify the vars file(bcm4319.txt), "macaddr=00:90:4c:14:4A:AB", to your own macaddr.
+
+4. The firmware download helper is located in /lib/firmware/dhd
+Use following command to probe driver.
+insmod /lib/modules/2.6.29-palm-shank/kernel/net/wifi/dhd.ko dhd_mac_address=XX:XX:XX:XX:XX:XX
+/lib/firmware/dhd -i eth0 download /lib/firmware/bcm4319.bin /lib/firmware/bcm4319.txt
+
+5. WiFi will not get up automatically, so you need to make it up, by sendding a private command WL_UP
+I have coded it in wifi_up.c
+
+That's all.
